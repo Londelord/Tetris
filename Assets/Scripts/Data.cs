@@ -7,6 +7,7 @@ public static class Data
     public static float stepDelay = 1f;
     public static float moveDelay = 0.1f;
     public static float lockDelay = 0.5f;
+    public static string selectedDifficulty = "Easy";
 
     public static readonly float cos = Mathf.Cos(Mathf.PI / 2f);
     public static readonly float sin = Mathf.Sin(Mathf.PI / 2f);

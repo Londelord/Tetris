@@ -13,7 +13,13 @@ public class Button : MonoBehaviour
     private void Awake()
     {
         text = GetComponentInChildren<TextMeshProUGUI>();
+    }
 
+    private void SetDifficulty(float speed, string selectedDifficulty)
+    {
+        Data.selectedDifficulty = selectedDifficulty;
+        Data.stepDelay = speed;
+        difficulty.text = $"Selected difficulty:\n{Data.selectedDifficulty}";
     }
 
     private void OnMouseEnter()
@@ -37,6 +43,11 @@ public class Button : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
+    public void ButtonOptions()
+    {
+        difficulty.text = $"Selected difficulty:\n{Data.selectedDifficulty}";
+    }
+
     public void ButtonExit()
     {
         Application.Quit();
@@ -44,20 +55,17 @@ public class Button : MonoBehaviour
 
     public void ButtonEasy()
     {
-        Data.stepDelay = 1f;
-        difficulty.text = "Selected difficulty:\nEasy";
+        SetDifficulty(1f, "Easy");
     }
 
     public void ButtonNormal()
     {
-        Data.stepDelay = 0.4f;
-        difficulty.text = "Selected difficulty:\nNormal";
+        SetDifficulty(0.4f, "Normal");
     }
 
     public void ButtonHard()
     {
-        Data.stepDelay = 0.1f;
-        difficulty.text = "Selected difficulty:\nHard";
+        SetDifficulty(0.25f, "Hard");
     }
 
     public void ButtonToMenu()
