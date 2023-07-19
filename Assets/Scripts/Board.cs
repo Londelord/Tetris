@@ -1,8 +1,13 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class Board : MonoBehaviour
 {
+    [SerializeField] GameObject gameobjectwithtext;
+    [SerializeField] GameObject panel;
+    private TextMeshProUGUI text;
+
     public Tilemap tilemap { get; private set; }
     public Piece activePiece { get; private set; }
 
@@ -22,16 +27,18 @@ public class Board : MonoBehaviour
     {
         tilemap = GetComponentInChildren<Tilemap>();
         activePiece = GetComponentInChildren<Piece>();
+        text = gameobjectwithtext.GetComponent<TextMeshProUGUI>();
 
         for (int i = 0; i < tetrominoes.Length; i++) {
             tetrominoes[i].Initialize();
         }
     }
 
-    private void Start()
+    private void OnEnable()
     {
         SpawnPiece();
     }
+
 
     public void SpawnPiece()
     {
@@ -42,16 +49,27 @@ public class Board : MonoBehaviour
 
         if (IsValidPosition(activePiece, spawnPosition)) {
             Set(activePiece);
-        } else {
+        }
+        else
+        {
             GameOver();
         }
     }
 
-    public void GameOver()
+    private void GameOver()
+    {
+        gameObject.GetComponent<Board>().enabled = false;
+        gameObject.GetComponent<Piece>().enabled = false;
+        panel.SetActive(true);
+    }
+
+    public void Restart()
     {
         tilemap.ClearAllTiles();
-
-        // Do anything else you want on game over here..
+        Data.score = 0;
+        text.text = $"Score:\n{Data.score}";
+        gameObject.GetComponent<Board>().enabled = true;
+        gameObject.GetComponent<Piece>().enabled = true;
     }
 
     public void Set(Piece piece)
@@ -105,9 +123,13 @@ public class Board : MonoBehaviour
         {
             // Only advance to the next row if the current is not cleared
             // because the tiles above will fall down when a row is cleared
-            if (IsLineFull(row)) {
+            if (IsLineFull(row)) 
+            {
                 LineClear(row);
-            } else {
+                Data.score += 10;
+                text.text = $"Score:\n{Data.score}";
+            } 
+            else {
                 row++;
             }
         }

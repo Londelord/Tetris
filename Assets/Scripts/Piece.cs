@@ -8,9 +8,9 @@ public class Piece : MonoBehaviour
     public Vector3Int position { get; private set; }
     public int rotationIndex { get; private set; }
 
-    public float stepDelay = 1f;
-    public float moveDelay = 0.1f;
-    public float lockDelay = 0.5f;
+    private float stepDelay = 1f;
+    private float moveDelay = 0.1f;
+    private float lockDelay = 0.5f;
 
     private float stepTime;
     private float moveTime;
@@ -18,6 +18,10 @@ public class Piece : MonoBehaviour
 
     public void Initialize(Board board, Vector3Int position, TetrominoData data)
     {
+        stepDelay = Data.stepDelay;
+        moveDelay = Data.moveDelay;
+        lockDelay = Data.lockDelay;
+
         this.data = data;
         this.board = board;
         this.position = position;

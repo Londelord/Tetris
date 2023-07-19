@@ -3,6 +3,11 @@ using UnityEngine;
 
 public static class Data
 {
+    public static int score = 0;
+    public static float stepDelay = 1f;
+    public static float moveDelay = 0.1f;
+    public static float lockDelay = 0.5f;
+
     public static readonly float cos = Mathf.Cos(Mathf.PI / 2f);
     public static readonly float sin = Mathf.Sin(Mathf.PI / 2f);
     public static readonly float[] RotationMatrix = new float[] { cos, sin, -sin, cos };
