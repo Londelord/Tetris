@@ -75,6 +75,18 @@ public class Board : MonoBehaviour
         gameObject.GetComponent<Piece>().enabled = true;
     }
 
+    public void AgainFromPause()
+    {
+        gameObject.GetComponent<Board>().enabled = false;
+        gameObject.GetComponent<Piece>().enabled = false;
+        tilemap.ClearAllTiles();
+        Data.score = 0;
+        text.text = $"Score:\n{Data.score}";
+        gameObject.GetComponent<Board>().enabled = true;
+        gameObject.GetComponent<Piece>().enabled = true;
+        activePiece.StartGame();
+    }
+
     public void Set(Piece piece)
     {
         for (int i = 0; i < piece.cells.Length; i++)

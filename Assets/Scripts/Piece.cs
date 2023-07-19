@@ -1,16 +1,20 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Piece : MonoBehaviour
 {
+    [SerializeField] UnityEvent[] showPausePanel;
+
     public Board board { get; private set; }
     public TetrominoData data { get; private set; }
     public Vector3Int[] cells { get; private set; }
     public Vector3Int position { get; private set; }
     public int rotationIndex { get; private set; }
 
-    private float stepDelay = 1f;
-    private float moveDelay = 0.1f;
-    private float lockDelay = 0.5f;
+    private float stepDelay;
+    private float moveDelay;
+    private float lockDelay;
+    private bool gameIsPaused = false;
 
     private float stepTime;
     private float moveTime;
@@ -42,33 +46,61 @@ public class Piece : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape) && !gameIsPaused)
+        {
+            PauseGame();
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape) && gameIsPaused)
+        {
+            StartGame();
+        }
+
+        if (!gameIsPaused) UpdateFunction();
+    }
+
+    private void UpdateFunction()
+    {
         board.Clear(this);
 
         lockTime += Time.deltaTime;
 
-        if (Input.GetKeyDown(KeyCode.Q)) {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
             Rotate(-1);
-        } else if (Input.GetKeyDown(KeyCode.E)) {
+        }
+        else if (Input.GetKeyDown(KeyCode.E))
+        {
             Rotate(1);
         }
 
-        // Handle hard drop
-        if (Input.GetKeyDown(KeyCode.Space)) {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
             HardDrop();
         }
 
-        // Allow the player to hold movement keys but only after a move delay
-        // so it does not move too fast
-        if (Time.time > moveTime) {
+        if (Time.time > moveTime)
+        {
             HandleMoveInputs();
         }
 
-        // Advance the piece to the next row every x seconds
-        if (Time.time > stepTime) {
+        if (Time.time > stepTime)
+        {
             Step();
         }
 
         board.Set(this);
+    }
+
+    private void PauseGame()
+    {
+        gameIsPaused = true;
+        showPausePanel[0]?.Invoke();
+    }
+
+    public void StartGame()
+    {
+        gameIsPaused = false;
+        showPausePanel[1]?.Invoke();
     }
 
     private void HandleMoveInputs()
