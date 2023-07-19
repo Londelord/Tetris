@@ -44,11 +44,8 @@ public class Piece : MonoBehaviour
     {
         board.Clear(this);
 
-        // We use a timer to allow the player to make adjustments to the piece
-        // before it locks in place
         lockTime += Time.deltaTime;
 
-        // Handle rotation
         if (Input.GetKeyDown(KeyCode.Q)) {
             Rotate(-1);
         } else if (Input.GetKeyDown(KeyCode.E)) {

@@ -4,7 +4,7 @@ using UnityEngine;
 public static class Data
 {
     public static int score = 0;
-    public static float stepDelay = 1f;
+    public static float stepDelay = 0.7f;
     public static float moveDelay = 0.1f;
     public static float lockDelay = 0.5f;
     public static string selectedDifficulty = "Easy";

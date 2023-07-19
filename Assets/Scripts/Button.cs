@@ -2,39 +2,42 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 public class Button : MonoBehaviour
 {
     [SerializeField] UnityEvent action;
-    [SerializeField] TextMeshProUGUI difficulty;
+    [SerializeField] TextMeshProUGUI textPlace;
 
-    private TextMeshProUGUI text; 
+    string[] tableOfRecords = File.ReadAllLines(@"C:\Users\Londelord\Tetris 2.0\Assets\Scripts\High Score Table.txt");
+
+    private TextMeshProUGUI buttonText; 
 
     private void Awake()
     {
-        text = GetComponentInChildren<TextMeshProUGUI>();
+        buttonText = GetComponentInChildren<TextMeshProUGUI>();
     }
 
     private void SetDifficulty(float speed, string selectedDifficulty)
     {
         Data.selectedDifficulty = selectedDifficulty;
         Data.stepDelay = speed;
-        difficulty.text = $"Selected difficulty:\n{Data.selectedDifficulty}";
+        textPlace.text = $"Selected difficulty:\n{Data.selectedDifficulty}";
     }
 
     private void OnMouseEnter()
     {
-        text.color = new Color(255, 0, 255);
+        buttonText.color = new Color(255, 0, 255);
     }
 
     private void OnMouseExit()
     {
-        text.color = new Color(255, 255, 255);
+        buttonText.color = new Color(255, 255, 255);
     }
 
     private void OnMouseUpAsButton()
     {
-        text.color = new Color(255, 255, 255);
+        buttonText.color = new Color(255, 255, 255);
         action?.Invoke();
     }
 
@@ -45,7 +48,7 @@ public class Button : MonoBehaviour
 
     public void ButtonOptions()
     {
-        difficulty.text = $"Selected difficulty:\n{Data.selectedDifficulty}";
+        textPlace.text = $"Selected difficulty:\n{Data.selectedDifficulty}";
     }
 
     public void ButtonExit()
@@ -55,21 +58,29 @@ public class Button : MonoBehaviour
 
     public void ButtonEasy()
     {
-        SetDifficulty(1f, "Easy");
+        SetDifficulty(0.7f, "Easy");
     }
 
     public void ButtonNormal()
     {
-        SetDifficulty(0.4f, "Normal");
+        SetDifficulty(0.3f, "Normal");
     }
 
     public void ButtonHard()
     {
-        SetDifficulty(0.25f, "Hard");
+        SetDifficulty(0.1f, "Hard");
     }
 
     public void ButtonToMenu()
     {
         SceneManager.LoadScene(0);
+    }
+
+    public void ButtonHighScoreTable()
+    {
+        for(int i = 0; i < tableOfRecords.Length; i++)
+        {
+            textPlace.text += $"{i+1}. {tableOfRecords[i]}\n";
+        }
     }
 }

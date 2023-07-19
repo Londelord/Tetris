@@ -7,6 +7,7 @@ public class Board : MonoBehaviour
     [SerializeField] GameObject gameobjectwithtext;
     [SerializeField] GameObject panel;
     private TextMeshProUGUI text;
+    private HighScoreTable highScoreTable;
 
     public Tilemap tilemap { get; private set; }
     public Piece activePiece { get; private set; }
@@ -25,6 +26,7 @@ public class Board : MonoBehaviour
 
     private void Awake()
     {
+        highScoreTable = GetComponent<HighScoreTable>();
         tilemap = GetComponentInChildren<Tilemap>();
         activePiece = GetComponentInChildren<Piece>();
         text = gameobjectwithtext.GetComponent<TextMeshProUGUI>();
@@ -53,6 +55,7 @@ public class Board : MonoBehaviour
         else
         {
             GameOver();
+            highScoreTable.CheckRecord();
         }
     }
 
