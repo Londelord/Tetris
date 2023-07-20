@@ -9,8 +9,6 @@ public class Button : MonoBehaviour
     [SerializeField] UnityEvent action;
     [SerializeField] TextMeshProUGUI textPlace;
 
-    string[] tableOfRecords = File.ReadAllLines(@"C:\Users\Londelord\Tetris 2.0\Assets\Scripts\High Score Table.txt");
-
     private TextMeshProUGUI buttonText; 
 
     private void Awake()
@@ -78,9 +76,11 @@ public class Button : MonoBehaviour
 
     public void ButtonHighScoreTable()
     {
-        for(int i = 0; i < tableOfRecords.Length; i++)
+        string[] records = File.ReadAllText($"{Application.streamingAssetsPath}/HighScoreTable.txt").Split();
+        print(records.Length);
+        for(int i = 0; i < records.Length; i++)
         {
-            textPlace.text += $"{i+1}. {tableOfRecords[i]}\n";
+            textPlace.text += $"{i+1}.{records[i]}\n";
         }
     }
 }

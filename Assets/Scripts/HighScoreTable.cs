@@ -4,13 +4,21 @@ using UnityEngine;
 
 public class HighScoreTable : MonoBehaviour
 {
-    string[] tableOfRecords = File.ReadAllLines(@"C:\Users\Londelord\Tetris 2.0\Assets\Scripts\High Score Table.txt");
+    string[] tableOfRecords;   
+
+    string path;
+    string fileName = "HighScoreTable.txt";
 
     public void CheckRecord()
     {
+        path = $"{Application.streamingAssetsPath}/{fileName}";
+
+        tableOfRecords = File.ReadAllText(path).Split();
+
         int[] records = new int[tableOfRecords.Length];
         for (int i = 0; i < tableOfRecords.Length; i++)
         {
+
             records[i] = int.Parse(tableOfRecords[i]);
         }
 
@@ -29,12 +37,16 @@ public class HighScoreTable : MonoBehaviour
         records[^1] = Data.score;
         Array.Sort(records);
         Array.Reverse(records);
-       
-        for (int i = 0; i < tableOfRecords.Length; i++)
+        string newRecords = "";
+
+        for (int i = 0; i < tableOfRecords.Length - 1; i++)
         {
             tableOfRecords[i] = records[i].ToString();
+            newRecords += tableOfRecords[i] + " ";
         }
 
-        File.WriteAllLines(@"C:\Users\Londelord\Tetris 2.0\Assets\Scripts\High Score Table.txt", tableOfRecords);
+        newRecords += tableOfRecords[^1].ToString();
+
+        File.WriteAllText(path, newRecords);
     }
 }
