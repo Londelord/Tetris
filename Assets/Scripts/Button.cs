@@ -71,13 +71,13 @@ public class Button : MonoBehaviour
 
     public void ButtonToMenu()
     {
+        Data.score = 0;
         SceneManager.LoadScene(0);
     }
 
     public void ButtonHighScoreTable()
     {
         string[] records = File.ReadAllText($"{Application.streamingAssetsPath}/HighScoreTable.txt").Split();
-        print(records.Length);
         for(int i = 0; i < records.Length; i++)
         {
             textPlace.text += $"{i+1}.{records[i]}\n";

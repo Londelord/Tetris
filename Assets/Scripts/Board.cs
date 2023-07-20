@@ -68,7 +68,6 @@ public class Board : MonoBehaviour
 
     public void Restart()
     {
-        highScoreTable.CheckRecord();
         tilemap.ClearAllTiles();
         Data.score = 0;
         text.text = $"Score:\n{Data.score}";
@@ -78,7 +77,6 @@ public class Board : MonoBehaviour
 
     public void AgainFromPause()
     {
-        highScoreTable.CheckRecord();
         gameObject.GetComponent<Board>().enabled = false;
         gameObject.GetComponent<Piece>().enabled = false;
         tilemap.ClearAllTiles();
